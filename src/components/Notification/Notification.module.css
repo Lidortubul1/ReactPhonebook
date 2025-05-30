@@ -1,0 +1,62 @@
+.notification {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ffffff;
+  border-left: 6px solid #007bff;
+  color: #333;
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  z-index: 9999;
+  min-width: 300px;
+  max-width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: fadeIn 0.4s ease;
+}
+
+.notification p {
+  margin: 0;
+  font-size: 1rem;
+  flex: 1;
+}
+
+.notification button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  margin-left: 1rem;
+  color: #555;
+  cursor: pointer;
+}
+
+.notification button:hover {
+  color: #000;
+}
+
+/* סוגים שונים */
+.info {
+  border-left-color: #17a2b8;
+}
+
+.success {
+  border-left-color: #28a745;
+}
+
+.error {
+  border-left-color: #dc3545;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}

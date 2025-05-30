@@ -1,0 +1,31 @@
+.about {
+  max-width: 900px;
+  margin: 3rem auto;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  line-height: 1.8;
+}
+
+.about h2 {
+  text-align: center;
+  color: #007bff;
+  margin-bottom: 1rem;
+}
+
+.about h3 {
+  margin-top: 1.5rem;
+  color: #333;
+}
+
+.about ul {
+  margin-top: 0.5rem;
+  padding-left: 1.2rem;
+  list-style: disc;
+}
+
+.about p {
+  margin-top: 0.5rem;
+  color: #444;
+}
