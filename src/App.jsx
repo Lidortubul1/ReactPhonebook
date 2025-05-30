@@ -36,7 +36,6 @@ function App() {
 <Routes>
   {/* הפניה אוטומטית מהשורש ל-login */}
   <Route path="/" element={<Navigate to="/login" replace />} />
-  
   <Route path="/login" element={<Login onLogin={handleLogin} />} />
   <Route element={<Layout user={user} links={links} onLogout={handleLogout} />}>
     <Route path="/home" element={<Home />} />
