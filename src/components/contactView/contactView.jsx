@@ -3,14 +3,15 @@ import Modal from "../modal/Modal";
 import Notification from "../Notification/Notification";
 import styles from "./contactView.module.css";
 
-/**
- * קומפוננטה שמרכזת את כל הפעולות והתצוגה של אנשי קשר
- * @param {Array} contacts - אנשי הקשר שמתקבלים מהקומפוננטה האם (Contacts או Groups)
- * @param {Object} user - המשתמש הנוכחי, לצורך בדיקת הרשאות
- */
-export default function ContactView({ contacts, user }) {
-  const [localContacts, setLocalContacts] = useState([...contacts]);
-  const [favorites, setFavorites] = useState([]);
+export default function ContactView({
+  contacts,
+  user,
+  favorites,
+  setFavorites,
+}) {
+  const [localContacts, setLocalContacts] = useState(() =>
+    contacts.map((c) => ({ ...c }))
+  );
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("name");
   const [sortAsc, setSortAsc] = useState(true);
@@ -102,9 +103,9 @@ export default function ContactView({ contacts, user }) {
     .sort((a, b) => {
       const aField = a[sortBy].toLowerCase();
       const bField = b[sortBy].toLowerCase();
-      if (aField < bField) return sortAsc ? -1 : 1;
-      if (aField > bField) return sortAsc ? 1 : -1;
-      return 0;
+      return sortAsc
+        ? aField.localeCompare(bField)
+        : bField.localeCompare(aField);
     });
 
   const displayed = showFavorites
@@ -125,9 +126,20 @@ export default function ContactView({ contacts, user }) {
         <button onClick={() => setSortBy("name")}>שם</button>
         <button onClick={() => setSortBy("phone")}>טלפון</button>
         <button onClick={() => setSortBy("email")}>מייל</button>
-        <button onClick={() => setSortAsc((prev) => !prev)}>
-          {sortAsc ? "⬆️" : "⬇️"}
+        <button
+          className={sortAsc ? styles.activeSort : ""}
+          onClick={() => setSortAsc(true)}
+        >
+          🔼 מיון עולה
         </button>
+
+        <button
+          className={!sortAsc ? styles.activeSort : ""}
+          onClick={() => setSortAsc(false)}
+        >
+          🔽 מיון יורד
+        </button>
+
         <button onClick={() => setShowFavorites((prev) => !prev)}>
           {showFavorites ? "הצג הכל" : "הצג מועדפים"}
         </button>

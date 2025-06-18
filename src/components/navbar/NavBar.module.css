@@ -3,34 +3,58 @@
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  gap: 1rem;
-  background-color: #e9ecef;
-  padding: 1rem;
-  border-radius: 8px;
+  gap: 0.8rem;
+  background: linear-gradient(to right, #f5f7fa, #e2e8f0);
+  padding: 1rem 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
 }
 
 .link {
   text-decoration: none;
-  color: #000;
-  background-color: #d1d1d1;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  transition: 0.3s;
+  background: linear-gradient(to right, #667eea, #764ba2);
+  color: #fff;
+  padding: 0.55rem 1.2rem;
+  border-radius: 12px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
 }
 
 .link:hover {
-  background-color: #b0b0b0;
+  background: linear-gradient(to right, #5a67d8, #6b46c1);
+  transform: scale(1.05);
 }
 
 .logoutBtn {
-  background-color: #dc3545;
+  background: linear-gradient(to right, #063c53, #1298a7);
+
   color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
+  padding: 0.55rem 1.2rem;
+  border-radius: 12px;
   border: none;
-  transition: background-color 0.3s ease;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(229, 62, 62, 0.3);
 }
 
 .logoutBtn:hover {
-  background-color: #a71d2a;
+  background: linear-gradient(to right, #f56565, #e53e3e);
+  transform: scale(1.05);
+}
+.link:hover,
+.logoutBtn:hover {
+  animation: bounce 0.4s ease;
+}
+
+@keyframes bounce {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.07); }
+  100% { transform: scale(1); }
+}
+.activeLink {
+  background: linear-gradient(to right, #a4478d, #5b093d); /* ירוק */
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+  transform: scale(1.05);
 }

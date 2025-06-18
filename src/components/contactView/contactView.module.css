@@ -1,75 +1,146 @@
 .container {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 3rem auto;
-  background-color: #fff;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #f7fafc, #edf2f7);
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.container:hover {
+  transform: scale(1.01);
 }
 
 .controls {
   display: flex;
-  flex-wrap: nowrap;
-  gap: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-bottom: 1.2rem;
   align-items: center;
-  overflow-x: auto;
-  padding-bottom: 0.5rem;
+  justify-content: space-between;
 }
 
 .controls input {
-  min-width: 200px;
-  padding: 0.4rem;
-  border-radius: 6px;
+  padding: 0.6rem;
   border: 1px solid #ccc;
+  border-radius: 12px;
+  min-width: 220px;
+  font-size: 1rem;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.controls input:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.6);
+  outline: none;
 }
 
 .controls button {
-  background-color: #007bff;
-  color: white;
+  background: linear-gradient(to right, #667eea, #764ba2);
+  color: #fff;
   border: none;
-  border-radius: 6px;
-  padding: 0.4rem 0.8rem;
+  border-radius: 12px;
+  padding: 0.6rem 1.1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-weight: bold;
+  transition: all 0.3s ease;
 }
 
 .controls button:hover {
-  background-color: #0056b3;
+  background: linear-gradient(to right, #5a67d8, #6b46c1);
+  transform: scale(1.05);
 }
 
 .contactList {
   list-style: none;
   padding: 0;
+  display: grid;
+  gap: 1.2rem;
   margin-top: 1rem;
 }
 
 .contactItem {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 1rem;
-  padding: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  flex-wrap: wrap;
+  padding: 1.2rem;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  animation: fadeIn 0.5s ease-in-out;
+  transition: transform 0.2s ease;
+}
+
+.contactItem:hover {
+  transform: translateY(-4px);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .image {
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #4a90e2;
 }
 
 .contactDetails {
   flex: 1;
-  min-width: 200px;
-  font-size: 1rem;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #333;
 }
 
 .actions {
   display: flex;
-  gap: 0.5rem;
-  justify-content: flex-end;
-  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.actions button {
+  background-color: #f1f5f9;
+  border: none;
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.actions button:hover {
+  background-color: #e2e8f0;
+}
+
+@media (max-width: 768px) {
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .contactItem {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .actions {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+}
+/* עיצוב כפתור מיון נבחר */
+.activeSort {
+  background: linear-gradient(to right, #4fd1c5, #4299e1);
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 0 5px rgba(66, 153, 225, 0.5);
 }

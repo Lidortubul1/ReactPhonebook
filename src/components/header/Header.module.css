@@ -1,10 +1,33 @@
+@keyframes glowText {
+  0% {
+    text-shadow: 0 0 20px #450849, 0 0 10px #66ccff, 0 0 20px #450849;
+  }
+  50% {
+    text-shadow: 0 0 5px #0f1214, 0 0 10px #66ccff, 0 0 20px #010f15;
+  }
+  100% {
+    text-shadow: 0 0 20px #450849, 0 0 10px #66ccff, 0 0 20px #450849;
+  }
+}
+
 .header {
-  background-color: #007bff;
-  color: white;
-  padding: 1rem;
+  background: linear-gradient(to right, #749ceb, #933578);
+  padding: 1.5rem;
   text-align: center;
-  font-size: 1.8rem;
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+}
+
+.header h1 {
+  font-size: 2.8rem;
   font-weight: bold;
-  border-radius: 0 0 8px 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #ffffff;
+  font-family: 'Segoe UI', 'Rubik', 'Tahoma', sans-serif;
+  letter-spacing: 1.5px;
+  animation: glowText 3s infinite ease-in-out;
+  transition: transform 0.3s ease;
+}
+
+.header h1:hover {
+  transform: scale(1.05);
 }
