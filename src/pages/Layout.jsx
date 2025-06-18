@@ -1,3 +1,4 @@
+//תפקיד הקומפוננטה-לעטוף את כל דפי האפליקציה בעיצוב אחיד, ולהגן עליהם כך שיגיע אליהם רק משתמש מחובר.
 import Header from "../components/header/Header";
 import NavBar from "../components/navbar/NavBar";
 import Footer from "../components/footer/Footer";

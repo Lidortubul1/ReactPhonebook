@@ -1,3 +1,4 @@
+//תפקיד הקומפוננטה -לייצר חלון קופץ עם כותרת, תוכן דינמי וכפתור סגירה.
 import styles from "./Modal.module.css";
 
 export default function Modal({ title, children, onClose }) {

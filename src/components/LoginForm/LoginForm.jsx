@@ -1,63 +1,85 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { users } from "../../users";
 
 export default function LoginForm({ onLogin }) {
+  // @email - כתובת האימייל של המשתמש שמוזנת בטופס
   const [email, setEmail] = useState("");
+
+  // @password - הסיסמה שמוזנת בטופס
   const [password, setPassword] = useState("");
+
+  // @confirmPassword - שדה נוסף לאימות הסיסמה
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  // @error - הודעת שגיאה שתוצג אם ההתחברות נכשלה
   const [error, setError] = useState("");
+
+  // @navigate - מאפשר מעבר לתוך דפים אחרים באפליקציה
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  /**
+   * @handleSubmit - מתבצע כאשר המשתמש שולח את הטופס
+   * @param e - האירוע של שליחת הטופס
+   * @return אין ערך מוחזר, אך אם ההתחברות תקינה:
+   *         - מבוצעת קריאה ל־onLogin עם המשתמש המחובר
+   *         - מעבר אוטומטי לדף הבית
+   */
+  const handleSubmit = (e) => {
+    e.preventDefault(); // מניעת רענון ברירת מחדל של הדפדפן
 
+    // חיפוש משתמש תואם ברשימת המשתמשים לפי אימייל וסיסמה
     const user = users.find((u) => u.email === email && u.password === password);
+
+    // בדיקת תקינות: סיסמה תואמת ואימייל קיים
     if (!user || password !== confirmPassword) {
       setError("פרטי התחברות לא נכונים או סיסמאות לא תואמות");
       return;
     }
 
-    try {
-      const res = await fetch("https://randomuser.me/api/?results=10&seed=contacts123");
-      const data = await res.json();
+    // עדכון המשתמש המחובר למעלה באפליקציה הראשית
+    onLogin(user);
 
-      const groupsOptions = ["משפחה", "חברים", "עבודה", "שכנים", "לימודים", "ספורט"];
-
-      const getRandomGroups = () => {
-        const count = Math.floor(Math.random() * 3) + 1; // בין 1 ל־3 קבוצות
-        return [...groupsOptions].sort(() => 0.5 - Math.random()).slice(0, count);
-      };
-
-      const contacts = data.results.map((person, index) => ({
-        id: index + 1,
-        name: `${person.name.first} ${person.name.last}`,
-        phone: person.phone,
-        email: person.email,
-        image: person.picture.large,
-        groups: getRandomGroups()
-      }));
-
-      onLogin(user, contacts); // שולח ל-App.jsx
-      navigate("/home");
-    } catch (err) {
-      setError("שגיאה בטעינת אנשי קשר");
-    }
+    // מעבר לדף הבית לאחר התחברות מוצלחת
+    navigate("/home");
   };
 
   return (
     <form onSubmit={handleSubmit}>
+      {/* @email - שדה קלט לאימייל */}
       <label>אימייל:
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
       </label>
+
+      {/* @password - שדה קלט לסיסמה */}
       <label>סיסמה:
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
       </label>
+
+      {/* @confirmPassword - שדה קלט לאימות הסיסמה */}
       <label>אישור סיסמה:
-        <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
+        <input
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          required
+        />
       </label>
+
+      {/* @error - תצוגת שגיאה אם יש בעיה בפרטי ההתחברות */}
       {error && <p style={{ color: "red" }}>{error}</p>}
+
+      {/* @submitButton - כפתור התחברות */}
       <button type="submit">התחבר</button>
     </form>
   );
