@@ -3,14 +3,14 @@ export const users = [
     id: 1,
     name: "Alice",
     email: "alice@example.com",
-    password: "1234",
+    password: "A123456",
     isAdmin: true,
   },
   {
     id: 2,
     name: "Bob",
     email: "bob@example.com",
-    password: "abcd",
+    password: "B123456",
     isAdmin: false,
   },
 ];

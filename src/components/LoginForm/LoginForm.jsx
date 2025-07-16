@@ -52,8 +52,11 @@ export default function LoginForm({ onLogin }) {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$"
+            title="לפחות 6 תווים, כולל אותיות ומספרים"
             className={styles.input}
           />
+
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
@@ -72,8 +75,11 @@ export default function LoginForm({ onLogin }) {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
+            pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$"
+            title="לפחות 6 תווים, כולל אותיות ומספרים"
             className={styles.input}
           />
+
           <button
             type="button"
             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
