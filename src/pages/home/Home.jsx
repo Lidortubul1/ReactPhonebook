@@ -9,6 +9,7 @@ import Modal from "../../components/modal/Modal";
 import styles from "./Home.module.css";
 
 export default function Home() {
+  
   /**
    * message - שומר את ההודעה שתוצג למשתמש בדף הבית.
    * ערך התחלתי: "טוען נתונים..."
@@ -16,11 +17,7 @@ export default function Home() {
    */
   const [message, setMessage] = useState("טוען נתונים...");
 
-  /**
-   * showInfo - קובע האם להציג את המודאל של אודות הפרויקט.
-   * true => המודאל מוצג
-   * false => המודאל מוסתר
-   */
+  //קובע האם להציג את המודאל של אודות הפרויקט- אם אמת זה מוצג אם שקר זה מוסתר
   const [showInfo, setShowInfo] = useState(false);
 
   /**

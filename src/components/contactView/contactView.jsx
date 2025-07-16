@@ -1,17 +1,22 @@
 import { useState } from "react";
 import Modal from "../modal/Modal";
 import Notification from "../Notification/Notification";
+import AddOrEditForm from "../modal/AddOrEditForm";
 import styles from "./contactView.module.css";
 
+// קומפוננטה לניהול והצגת אנשי קשר
 export default function ContactView({
   contacts,
   user,
   favorites,
   setFavorites,
 }) {
+  // יצירת עותק פנימי לסטייט מקומי של אנשי הקשר
   const [localContacts, setLocalContacts] = useState(() =>
     contacts.map((c) => ({ ...c }))
   );
+
+  // סטייטים לכל שאר ההתנהגות: חיפוש, מיון, תצוגה, מודאל, עריכה, הודעות
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("name");
   const [sortAsc, setSortAsc] = useState(true);
@@ -20,171 +25,85 @@ export default function ContactView({
   const [modalOpen, setModalOpen] = useState(false);
   const [editingContact, setEditingContact] = useState(null);
   const [notif, setNotif] = useState(null);
-  const [nameInput, setNameInput] = useState("");
-  const [phoneInput, setPhoneInput] = useState("");
-  const [emailInput, setEmailInput] = useState("");
 
-  /**
-   * מאפסת את השדות בטופס (שם, טלפון, אימייל) ומבטלת מצב עריכה.
-   * לא מקבלת פרמטרים.
-   * לא מחזירה כלום.
-   */
-  const resetForm = () => {
-    setNameInput("");
-    setPhoneInput("");
-    setEmailInput("");
-    setEditingContact(null);
-  };
-  /**
-   * פותחת את המודאל להוספת איש קשר חדש אחרי איפוס השדות.
-   * לא מקבלת פרמטרים.
-   * לא מחזירה כלום.
-   */
-  const openAddModal = () => {
-    resetForm();
-    setModalOpen(true);
+  // הודעה שנעלמת אוטומטית אחרי שנייה
+  const showNotif = (msg) => {
+    setNotif(msg);
+    setTimeout(() => setNotif(null), 1000);
   };
 
-  /**
-   * פותחת את המודאל לעריכת איש קשר קיים ומעדכנת את השדות.
-   * @param {Object} contact - אובייקט של איש קשר לעריכה.
-   * לא מחזירה כלום.
-   */
-  const openEditModal = (contact) => {
-    setEditingContact(contact);
-    setNameInput(contact.name);
-    setPhoneInput(contact.phone);
-    setEmailInput(contact.email);
-    setModalOpen(true);
-  };
-
-  /**
-   * שומר איש קשר חדש או מעדכן קיים בהתאם למצב.
-   * לא מקבלת פרמטרים.
-   * לא מחזירה כלום.
-   */
-  const handleSave = () => {
-    if (!nameInput || !phoneInput || !emailInput) return;
-
+  // שמירה: הוספה או עריכה לפי מצב
+  const handleSave = (contactData) => {
     if (!editingContact) {
-      if (localContacts.some((c) => c.name === nameInput)) {
-        setNotif("⚠️ שם כבר קיים במערכת");
+      if (localContacts.some((c) => c.name === contactData.name)) {
+        showNotif("⚠️ שם כבר קיים במערכת");
         return;
       }
 
+      // יצירת איש קשר חדש
       const newContact = {
         id: Date.now(),
-        name: nameInput,
-        phone: phoneInput,
-        email: emailInput,
-        image: `https://i.pravatar.cc/150?u=${nameInput}`,
-        groups: ["חברים"],
+        ...contactData,
+        image: `https://i.pravatar.cc/150?u=${contactData.name}`,
       };
 
       setLocalContacts([...localContacts, newContact]);
-      setNotif("✅ איש הקשר נוסף בהצלחה");
+      showNotif("✅ נוסף");
     } else {
+      // עדכון איש קשר קיים
       const updated = {
         ...editingContact,
-        name: nameInput,
-        phone: phoneInput,
-        email: emailInput,
+        ...contactData,
       };
 
       setLocalContacts(
         localContacts.map((c) => (c.id === updated.id ? updated : c))
       );
-      setNotif("✏️ איש הקשר עודכן");
+      showNotif("✏️ עודכן");
     }
-
-    resetForm();
     setModalOpen(false);
   };
 
-  /**
-   * מוחק איש קשר לפי מזהה.
-   * @param {number} id - מזהה של איש הקשר למחיקה.
-   * לא מחזירה כלום.
-   */
+  // מחיקת איש קשר בודד
   const handleDelete = (id) => {
     setLocalContacts(localContacts.filter((c) => c.id !== id));
-    setNotif("🗑️ איש הקשר נמחק");
+    showNotif("🗑️ נמחק");
   };
 
-  /**
-   * מוחקת את כל אנשי הקשר מהרשימה.
-   * לא מקבלת פרמטרים.
-   * לא מחזירה כלום.
-   */
+  // מחיקת כל אנשי הקשר
   const handleDeleteAll = () => {
     setLocalContacts([]);
-    setNotif("📕 כל הרשומות נמחקו- הספר ריק");
+    showNotif("📕 הספר ריק");
   };
 
-  /**
-   * מוסיף או מסיר מזהה של איש קשר לרשימת המועדפים.
-   * @param {number} id - מזהה של איש הקשר להוספה או הסרה מהמועדפים.
-   * לא מחזירה כלום.
-   */
+  // הוספה / הסרה ממועדפים
   const handleToggleFavorite = (id) => {
     setFavorites((prev) =>
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
     );
   };
 
-  /**
-   * מסנן וממיין את אנשי הקשר בהתאם לחיפוש ולמיון.
-   *
-   * 1. סינון:
-   *    - משאיר רק אנשי קשר שהשם שלהם כולל את ערך החיפוש (search).
-   *    - החיפוש לא רגיש לאותיות גדולות / קטנות.
-   *
-   * 2. מיון:
-   *    - ממיין את אנשי הקשר לפי שדה שנבחר: name / phone / email (משתנה sortBy).
-   *    - סדר מיון עולה או יורד נקבע ע"י sortAsc.
-   *    - השוואת המחרוזות מתבצעת באמצעות localeCompare.
-   *
-   * לא מקבל פרמטרים ישירות - פועל על המצב הנוכחי של localContacts.
-   * מחזיר מערך חדש של אנשי קשר מסוננים וממוינים.
-   */
+  // סינון ומיון
   const filtered = localContacts
     .filter((c) => c.name.toLowerCase().includes(search.toLowerCase()))
-    .sort((a, b) => {
-      const aField = a[sortBy].toLowerCase();
-      const bField = b[sortBy].toLowerCase();
-      return sortAsc
-        ? aField.localeCompare(bField)
-        : bField.localeCompare(aField);
-    });
+    .sort((a, b) =>
+      sortAsc
+        ? a[sortBy].toLowerCase().localeCompare(b[sortBy].toLowerCase())
+        : b[sortBy].toLowerCase().localeCompare(a[sortBy].toLowerCase())
+    );
 
-  /**
-   * קובע אילו אנשי קשר יוצגו בפועל למשתמש.
-   *
-   * אם showFavorites = true:
-   *    - מסנן את אנשי הקשר כך שיוצגו רק אלה שה־id שלהם נמצא ברשימת המועדפים (favorites).
-   *
-   * אם showFavorites = false:
-   *    - מציג את כל אנשי הקשר המסוננים והממוינים שנמצאים ב־filtered.
-   *
-   * לא מקבל פרמטרים ישירות - פועל על filtered ועל favorites מהמצב הנוכחי.
-   * מחזיר מערך חדש של אנשי קשר לתצוגה.
-   */
+  // אם מצב "רק מועדפים" פעיל
   const displayed = showFavorites
     ? filtered.filter((c) => favorites.includes(c.id))
     : filtered;
 
-
-
-
-
-    
   return (
     <div className={styles.container}>
       <h2>רשימת אנשי קשר</h2>
 
+      {/* פקדים - חיפוש, מיון, תצוגה */}
       <div className={styles.controls}>
         <input
-          type="text"
           placeholder="חפש לפי שם..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -196,30 +115,38 @@ export default function ContactView({
           className={sortAsc ? styles.activeSort : ""}
           onClick={() => setSortAsc(true)}
         >
-          🔼 מיון עולה
+          🔼
         </button>
-
         <button
           className={!sortAsc ? styles.activeSort : ""}
           onClick={() => setSortAsc(false)}
         >
-          🔽 מיון יורד
+          🔽
         </button>
-
         <button onClick={() => setShowFavorites((prev) => !prev)}>
           {showFavorites ? "הצג הכל" : "הצג מועדפים"}
         </button>
         <button onClick={() => setCompactView((prev) => !prev)}>
           {compactView ? "תצוגה מלאה" : "תצוגה מצומצמת"}
         </button>
+
+        {/* כפתורים לניהול ע"י אדמין בלבד */}
         {user.isAdmin && (
           <>
-            <button onClick={openAddModal}>➕ הוסף איש קשר</button>
-            <button onClick={handleDeleteAll}>🗑️ מחק הכל</button>
+            <button
+              onClick={() => {
+                setEditingContact(null);
+                setModalOpen(true);
+              }}
+            >
+              ➕ הוסף
+            </button>
+            <button onClick={handleDeleteAll}>🗑️ הכל</button>
           </>
         )}
       </div>
 
+      {/* תצוגת אנשי קשר */}
       {displayed.length === 0 ? (
         <p>לא נמצאו תוצאות</p>
       ) : (
@@ -230,8 +157,8 @@ export default function ContactView({
                 <img src={c.image} alt={c.name} className={styles.image} />
               )}
               <div className={styles.contactDetails}>
-                <strong>{c.name}</strong> - {c.phone}
-                {!compactView && <> | {c.email}</>}
+                <strong>{c.name}</strong> - {c.phone}{" "}
+                {!compactView && <>| {c.email}</>}
               </div>
               <div className={styles.actions}>
                 <button onClick={() => handleToggleFavorite(c.id)}>
@@ -239,7 +166,14 @@ export default function ContactView({
                 </button>
                 {user.isAdmin && (
                   <>
-                    <button onClick={() => openEditModal(c)}>✏️</button>
+                    <button
+                      onClick={() => {
+                        setEditingContact(c);
+                        setModalOpen(true);
+                      }}
+                    >
+                      ✏️
+                    </button>
                     <button onClick={() => handleDelete(c.id)}>🗑️</button>
                   </>
                 )}
@@ -249,37 +183,20 @@ export default function ContactView({
         </ul>
       )}
 
+      {/* הודעה קופצת */}
       {notif && <Notification message={notif} onClose={() => setNotif(null)} />}
 
+      {/* מודאל הוספה / עריכה */}
       {modalOpen && (
         <Modal
-          title={editingContact ? "עריכת איש קשר" : "הוספת איש קשר"}
+          title={editingContact ? "עריכה" : "הוספה"}
           onClose={() => setModalOpen(false)}
         >
-          <label>
-            שם:
-            <input
-              value={nameInput}
-              onChange={(e) => setNameInput(e.target.value)}
-            />
-          </label>
-          <label>
-            טלפון:
-            <input
-              value={phoneInput}
-              onChange={(e) => setPhoneInput(e.target.value)}
-            />
-          </label>
-          <label>
-            אימייל:
-            <input
-              value={emailInput}
-              onChange={(e) => setEmailInput(e.target.value)}
-            />
-          </label>
-          <button onClick={handleSave}>
-            {editingContact ? "שמור שינויים" : "הוסף"}
-          </button>
+          <AddOrEditForm
+            onSubmit={handleSave}
+            initialData={editingContact}
+            isEdit={!!editingContact}
+          />
         </Modal>
       )}
     </div>
