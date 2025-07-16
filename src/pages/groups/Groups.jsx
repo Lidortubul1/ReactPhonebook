@@ -1,19 +1,42 @@
+/**
+ * Groups.jsx
+ * קומפוננטה לניהול אנשי קשר לפי קבוצות ומועדפים.
+ * מאפשרת להציג אנשי קשר לפי קבוצה, להוסיף קבוצות חדשות (באמצעות מודאל),
+ * למחוק קבוצות קיימות ואנשי קשר מתוכן, ולהציג רק אנשי קשר מועדפים.
+ * עיצוב מבוסס CSS Modules.
+ *
+ * Props:
+ * @param {Array} contacts - רשימת אנשי קשר מהמערכת.
+ * @param {Object} user - אובייקט המשתמש המחובר.
+ */
 import { useState } from "react";
 import styles from "./Groups.module.css";
-import Modal from "../components/modal/Modal";
-import ContactView from "../components/contactView/contactView";
+import Modal from "../../components/modal/Modal";
+import ContactView from "../../components/contactView/contactView";
+
+/**
+ * Groups.jsx
+ * קומפוננטה לניהול אנשי קשר לפי קבוצות ומועדפים.
+ * מאפשרת להציג אנשי קשר לפי קבוצה, להוסיף קבוצות חדשות (באמצעות מודאל),
+ * למחוק קבוצות קיימות ואנשי קשר מתוכן, ולהציג רק אנשי קשר מועדפים.
+ * עיצוב מבוסס CSS Modules.
+ *
+ * Props:
+ * @param {Array} contacts - רשימת אנשי קשר מהמערכת.
+ * @param {Object} user - אובייקט המשתמש המחובר.
+ */
 
 export default function Groups({ contacts, user }) {
   const [selectedGroup, setSelectedGroup] = useState("All");
   const [showModal, setShowModal] = useState(false);
   const [newGroup, setNewGroup] = useState("");
   const [showFavorites, setShowFavorites] = useState(false);
-
   const [localContacts, setLocalContacts] = useState(() =>
     contacts.map((c) => ({ ...c }))
   );
-
   const [favorites, setFavorites] = useState([]);
+  const [messageModal, setMessageModal] = useState("");
+  const [confirmModal, setConfirmModal] = useState("");
 
   const groups = Array.from(
     new Set(localContacts.flatMap((c) => c.groups || []))
@@ -22,24 +45,25 @@ export default function Groups({ contacts, user }) {
   const handleAddGroup = () => {
     const trimmed = newGroup.trim();
     if (trimmed && !groups.includes(trimmed)) {
-      alert(`קבוצה "${trimmed}" תתווסף כאשר תצורף לאיש קשר`);
+      setMessageModal(`קבוצה "${trimmed}" תתווסף כאשר תצורף לאיש קשר`);
     }
     setNewGroup("");
     setShowModal(false);
   };
 
+  const handleDeleteGroupConfirm = () => {
+    const updatedContacts = localContacts.filter(
+      (c) => !c.groups?.includes(selectedGroup)
+    );
+    setLocalContacts(updatedContacts);
+    setSelectedGroup("All");
+    setConfirmModal("");
+    setMessageModal(`הקבוצה "${selectedGroup}" וכל אנשי הקשר בה נמחקו בהצלחה`);
+  };
+
   const handleDeleteGroup = () => {
     if (selectedGroup !== "All") {
-      const confirmed = confirm(
-        `האם למחוק את כל אנשי הקשר בקבוצה "${selectedGroup}"?`
-      );
-      if (confirmed) {
-        const updatedContacts = localContacts.filter(
-          (c) => !c.groups?.includes(selectedGroup)
-        );
-        setLocalContacts(updatedContacts);
-        setSelectedGroup("All");
-      }
+      setConfirmModal(`האם למחוק את כל אנשי הקשר בקבוצה "${selectedGroup}"?`);
     }
   };
 
@@ -71,6 +95,7 @@ export default function Groups({ contacts, user }) {
               {g}
             </button>
           ))}
+
           {user.isAdmin && (
             <>
               <button onClick={() => setShowModal(true)}>➕ הוסף קבוצה</button>
@@ -96,13 +121,26 @@ export default function Groups({ contacts, user }) {
       {showModal && (
         <Modal title="הוספת קבוצה" onClose={() => setShowModal(false)}>
           <label>
-            שם קבוצה:
+           :שם קבוצה 
             <input
               value={newGroup}
               onChange={(e) => setNewGroup(e.target.value)}
             />
           </label>
           <button onClick={handleAddGroup}>שמור</button>
+        </Modal>
+      )}
+
+      {confirmModal && (
+        <Modal title="אישור מחיקה" onClose={() => setConfirmModal("")}>
+          <p>{confirmModal}</p>
+          <button onClick={handleDeleteGroupConfirm}>אישור מחיקה</button>
+        </Modal>
+      )}
+
+      {messageModal && (
+        <Modal title="הודעה" onClose={() => setMessageModal("")}>
+          <p>{messageModal}</p>
         </Modal>
       )}
     </div>

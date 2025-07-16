@@ -21,7 +21,7 @@ export default function AddOrEditForm({ onSubmit, initialData, isEdit }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>שם:
+      <label>:שם
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -29,7 +29,7 @@ export default function AddOrEditForm({ onSubmit, initialData, isEdit }) {
         />
       </label>
 
-      <label>אימייל:
+      <label>:מייל
         <input
           type="email"
           value={email}
@@ -38,7 +38,7 @@ export default function AddOrEditForm({ onSubmit, initialData, isEdit }) {
         />
       </label>
 
-      <label>טלפון:
+      <label>:טלפון
         <input
           value={phone}
           onChange={(e) => setPhone(e.target.value)}

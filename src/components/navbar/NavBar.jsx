@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import styles from "./NavBar.module.css";
 
 export default function NavBar({ links, onLogout }) {
+  
   const location = useLocation();
 
   return (

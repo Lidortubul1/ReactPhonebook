@@ -1,5 +1,5 @@
-import LoginForm from "../components/LoginForm/LoginForm";
-import { users } from "../users";
+import LoginForm from "../../components/LoginForm/LoginForm"
+import { users } from "../../users"
 import styles from "./Login.module.css";
 
 export default function Login({ onLogin }) {
@@ -11,8 +11,11 @@ export default function Login({ onLogin }) {
       <ul className={styles.userList}>
         {users.map((u) => (
           <li key={u.id}>
-            {u.name} ({u.email}) {u.isAdmin && <strong>- Admin</strong>}
-            {!u.isAdmin && <strong>- No Admin</strong>}
+            <div>
+              {u.isAdmin ? <strong>Admin</strong> : <strong>No Admin</strong>}
+            </div>
+            <div>Mail: {u.email}</div>
+            <div>password: {u.password}</div>
           </li>
         ))}
       </ul>

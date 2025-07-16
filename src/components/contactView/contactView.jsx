@@ -24,18 +24,32 @@ export default function ContactView({
   const [phoneInput, setPhoneInput] = useState("");
   const [emailInput, setEmailInput] = useState("");
 
+  /**
+   * מאפסת את השדות בטופס (שם, טלפון, אימייל) ומבטלת מצב עריכה.
+   * לא מקבלת פרמטרים.
+   * לא מחזירה כלום.
+   */
   const resetForm = () => {
     setNameInput("");
     setPhoneInput("");
     setEmailInput("");
     setEditingContact(null);
   };
-
+  /**
+   * פותחת את המודאל להוספת איש קשר חדש אחרי איפוס השדות.
+   * לא מקבלת פרמטרים.
+   * לא מחזירה כלום.
+   */
   const openAddModal = () => {
     resetForm();
     setModalOpen(true);
   };
 
+  /**
+   * פותחת את המודאל לעריכת איש קשר קיים ומעדכנת את השדות.
+   * @param {Object} contact - אובייקט של איש קשר לעריכה.
+   * לא מחזירה כלום.
+   */
   const openEditModal = (contact) => {
     setEditingContact(contact);
     setNameInput(contact.name);
@@ -44,6 +58,11 @@ export default function ContactView({
     setModalOpen(true);
   };
 
+  /**
+   * שומר איש קשר חדש או מעדכן קיים בהתאם למצב.
+   * לא מקבלת פרמטרים.
+   * לא מחזירה כלום.
+   */
   const handleSave = () => {
     if (!nameInput || !phoneInput || !emailInput) return;
 
@@ -82,22 +101,52 @@ export default function ContactView({
     setModalOpen(false);
   };
 
+  /**
+   * מוחק איש קשר לפי מזהה.
+   * @param {number} id - מזהה של איש הקשר למחיקה.
+   * לא מחזירה כלום.
+   */
   const handleDelete = (id) => {
     setLocalContacts(localContacts.filter((c) => c.id !== id));
     setNotif("🗑️ איש הקשר נמחק");
   };
 
+  /**
+   * מוחקת את כל אנשי הקשר מהרשימה.
+   * לא מקבלת פרמטרים.
+   * לא מחזירה כלום.
+   */
   const handleDeleteAll = () => {
     setLocalContacts([]);
-    setNotif("📕 כל הרשומות נמחקו");
+    setNotif("📕 כל הרשומות נמחקו- הספר ריק");
   };
 
+  /**
+   * מוסיף או מסיר מזהה של איש קשר לרשימת המועדפים.
+   * @param {number} id - מזהה של איש הקשר להוספה או הסרה מהמועדפים.
+   * לא מחזירה כלום.
+   */
   const handleToggleFavorite = (id) => {
     setFavorites((prev) =>
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
     );
   };
 
+  /**
+   * מסנן וממיין את אנשי הקשר בהתאם לחיפוש ולמיון.
+   *
+   * 1. סינון:
+   *    - משאיר רק אנשי קשר שהשם שלהם כולל את ערך החיפוש (search).
+   *    - החיפוש לא רגיש לאותיות גדולות / קטנות.
+   *
+   * 2. מיון:
+   *    - ממיין את אנשי הקשר לפי שדה שנבחר: name / phone / email (משתנה sortBy).
+   *    - סדר מיון עולה או יורד נקבע ע"י sortAsc.
+   *    - השוואת המחרוזות מתבצעת באמצעות localeCompare.
+   *
+   * לא מקבל פרמטרים ישירות - פועל על המצב הנוכחי של localContacts.
+   * מחזיר מערך חדש של אנשי קשר מסוננים וממוינים.
+   */
   const filtered = localContacts
     .filter((c) => c.name.toLowerCase().includes(search.toLowerCase()))
     .sort((a, b) => {
@@ -108,10 +157,27 @@ export default function ContactView({
         : bField.localeCompare(aField);
     });
 
+  /**
+   * קובע אילו אנשי קשר יוצגו בפועל למשתמש.
+   *
+   * אם showFavorites = true:
+   *    - מסנן את אנשי הקשר כך שיוצגו רק אלה שה־id שלהם נמצא ברשימת המועדפים (favorites).
+   *
+   * אם showFavorites = false:
+   *    - מציג את כל אנשי הקשר המסוננים והממוינים שנמצאים ב־filtered.
+   *
+   * לא מקבל פרמטרים ישירות - פועל על filtered ועל favorites מהמצב הנוכחי.
+   * מחזיר מערך חדש של אנשי קשר לתצוגה.
+   */
   const displayed = showFavorites
     ? filtered.filter((c) => favorites.includes(c.id))
     : filtered;
 
+
+
+
+
+    
   return (
     <div className={styles.container}>
       <h2>רשימת אנשי קשר</h2>
@@ -155,7 +221,7 @@ export default function ContactView({
       </div>
 
       {displayed.length === 0 ? (
-        <p>לא נמצאו תוצאות.</p>
+        <p>לא נמצאו תוצאות</p>
       ) : (
         <ul className={styles.contactList}>
           {displayed.map((c) => (

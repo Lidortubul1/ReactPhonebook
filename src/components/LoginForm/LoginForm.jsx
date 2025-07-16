@@ -9,6 +9,9 @@ export default function LoginForm({ onLogin }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -41,26 +44,44 @@ export default function LoginForm({ onLogin }) {
         />
       </label>
 
-      <label>
+      <label className={styles.passwordLabel}>
         סיסמה:
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          className={styles.input}
-        />
+        <div className={styles.passwordWrapper}>
+          <input
+            type={showPassword ? "text" : "password"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className={styles.input}
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className={styles.eyeButton}
+          >
+            {showPassword ? "🙈" : "👁️"}
+          </button>
+        </div>
       </label>
 
-      <label>
+      <label className={styles.passwordLabel}>
         אישור סיסמה:
-        <input
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required
-          className={styles.input}
-        />
+        <div className={styles.passwordWrapper}>
+          <input
+            type={showConfirmPassword ? "text" : "password"}
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+            className={styles.input}
+          />
+          <button
+            type="button"
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            className={styles.eyeButton}
+          >
+            {showConfirmPassword ? "🙈" : "👁️"}
+          </button>
+        </div>
       </label>
 
       {error && <p className={styles.error}>{error}</p>}

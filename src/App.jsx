@@ -5,12 +5,12 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import Login from "./pages/Login";
-import Home from "./pages/Home";
-import Contacts from "./pages/Contacts";
-import Groups from "./pages/Groups";
-import Layout from "./pages/Layout";
-import About from "./pages/about";
+import Login from "./pages/login/Login";
+import Home from "./pages/home/Home";
+import Contacts from "./pages/about/contacts/Contacts";
+import Groups from "./pages/groups/Groups";
+import Layout from "./pages/layout/Layout";
+import About from "./pages/about/about";
 import "./app.css";
 
 function App() {
@@ -39,7 +39,9 @@ function App() {
   // @return אין ערך מוחזר, מעדכן את contacts בסטייט
   const fetchContacts = async () => {
     try {
-      const res = await fetch("https://randomuser.me/api/?results=10&seed=contacts123");
+      const res = await fetch(
+        "https://randomuser.me/api/?results=10&seed=contacts123"
+      );
       const data = await res.json();
 
       // @groupsOptions - רשימת קבוצות אפשריות לשיוך
@@ -56,7 +58,9 @@ function App() {
       // @return מערך קבוצות אקראיות
       const getRandomGroups = () => {
         const count = Math.floor(Math.random() * 3) + 1;
-        return [...groupsOptions].sort(() => 0.5 - Math.random()).slice(0, count);
+        return [...groupsOptions]
+          .sort(() => 0.5 - Math.random())
+          .slice(0, count);
       };
 
       // @contactsData - יצירת אנשי קשר בפורמט מותאם לאפליקציה

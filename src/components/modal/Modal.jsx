@@ -1,5 +1,7 @@
 import { createPortal } from "react-dom";//חלון קופץ מחוץ לאתר עצמו בגלל בעיות בעיצוב
 import styles from "./Modal.module.css";
+
+
 export default function Modal({ title, children, onClose }) {
   return createPortal(
     <div className={styles.overlay}>
@@ -11,6 +13,6 @@ export default function Modal({ title, children, onClose }) {
         <div className={styles.body}>{children}</div>
       </div>
     </div>,
-    document.body // מוצג מחוץ לעיצוב של העמוד
+    document.body
   );
 }

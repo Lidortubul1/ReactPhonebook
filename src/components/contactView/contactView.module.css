@@ -52,6 +52,7 @@
   transform: scale(1.05);
 }
 
+
 .contactList {
   list-style: none;
   padding: 0;
@@ -74,6 +75,11 @@
 
 .contactItem:hover {
   transform: translateY(-4px);
+}
+
+p {
+  font-weight: bold;
+  text-align: center;
 }
 
 @keyframes fadeIn {
