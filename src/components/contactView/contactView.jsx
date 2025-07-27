@@ -7,14 +7,13 @@ import styles from "./contactView.module.css";
 // קומפוננטה לניהול והצגת אנשי קשר
 export default function ContactView({
   contacts,
+  setContacts, 
   user,
   favorites,
   setFavorites,
 }) {
-  // יצירת עותק פנימי לסטייט מקומי של אנשי הקשר
-  const [localContacts, setLocalContacts] = useState(() =>
-    contacts.map((c) => ({ ...c }))
-  );
+
+
 
   // סטייטים לכל שאר ההתנהגות: חיפוש, מיון, תצוגה, מודאל, עריכה, הודעות
   const [search, setSearch] = useState("");
@@ -35,7 +34,7 @@ export default function ContactView({
   // שמירה: הוספה או עריכה לפי מצב
   const handleSave = (contactData) => {
     if (!editingContact) {
-      if (localContacts.some((c) => c.name === contactData.name)) {
+      if (contacts.some((c) => c.name === contactData.name)) {
         showNotif("⚠️ שם כבר קיים במערכת");
         return;
       }
@@ -47,7 +46,7 @@ export default function ContactView({
         image: `https://i.pravatar.cc/150?u=${contactData.name}`,
       };
 
-      setLocalContacts([...localContacts, newContact]);
+      setContacts([...contacts, newContact]);
       showNotif("✅ נוסף");
     } else {
       // עדכון איש קשר קיים
@@ -56,9 +55,7 @@ export default function ContactView({
         ...contactData,
       };
 
-      setLocalContacts(
-        localContacts.map((c) => (c.id === updated.id ? updated : c))
-      );
+      setContacts(contacts.map((c) => (c.id === updated.id ? updated : c)));
       showNotif("✏️ עודכן");
     }
     setModalOpen(false);
@@ -66,13 +63,13 @@ export default function ContactView({
 
   // מחיקת איש קשר בודד
   const handleDelete = (id) => {
-    setLocalContacts(localContacts.filter((c) => c.id !== id));
+    setContacts(contacts.filter((c) => c.id !== id));
     showNotif("🗑️ נמחק");
   };
 
   // מחיקת כל אנשי הקשר
   const handleDeleteAll = () => {
-    setLocalContacts([]);
+    setContacts([]);
     showNotif("📕 הספר ריק");
   };
 
@@ -84,7 +81,7 @@ export default function ContactView({
   };
 
   // סינון ומיון
-  const filtered = localContacts
+  const filtered = contacts
     .filter((c) => c.name.toLowerCase().includes(search.toLowerCase()))
     .sort((a, b) =>
       sortAsc

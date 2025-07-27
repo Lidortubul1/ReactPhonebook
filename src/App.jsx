@@ -40,7 +40,7 @@ function App() {
   const fetchContacts = async () => {
     try {
       const res = await fetch(
-        "https://randomuser.me/api/?results=10&seed=contacts123"
+        "https://randomuser.me/api/?results=20&seed=contacts123"
       );
       const data = await res.json();
 
@@ -99,6 +99,7 @@ function App() {
             element={
               <Groups
                 contacts={contacts}
+                setContacts={setContacts} 
                 user={user}
                 groups={groups}
                 setGroups={setGroups}

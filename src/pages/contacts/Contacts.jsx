@@ -1,11 +1,12 @@
 import { useState } from "react";
 import ContactView from "../../components/contactView/contactView"
-export default function Contacts({ contacts, user }) {
+export default function Contacts({ contacts,setContacts, user }) {
   const [favorites, setFavorites] = useState([]);
 
   return (
     <ContactView
       contacts={contacts}
+      setContacts={setContacts} 
       user={user}
       favorites={favorites}
       setFavorites={setFavorites}

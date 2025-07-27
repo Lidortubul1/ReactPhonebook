@@ -4,7 +4,13 @@ import Modal from "../../components/modal/Modal";
 import ContactView from "../../components/contactView/contactView";
 
 // קומפוננטת Groups - לניהול קבוצות ואנשי קשר
-export default function Groups({ contacts, user, groups, setGroups }) {
+export default function Groups({
+  contacts,
+  setContacts,
+  user,
+  groups,
+  setGroups,
+}) {
   // הקבוצה שנבחרה כרגע
   const [selectedGroup, setSelectedGroup] = useState("All");
   // האם להציג מודאל להוספת קבוצה
@@ -13,8 +19,6 @@ export default function Groups({ contacts, user, groups, setGroups }) {
   const [newGroup, setNewGroup] = useState("");
   // האם להציג רק אנשי קשר מועדפים
   const [showFavorites, setShowFavorites] = useState(false);
-  // אנשי קשר מקומיים (כדי לא לפגוע ב־contacts המקורי)
-  const [localContacts, setLocalContacts] = useState(() => contacts.map((c) => ({ ...c })));
   // מזהים של אנשי קשר מועדפים
   const [favorites, setFavorites] = useState([]);
   // הודעות למודאלים
@@ -41,10 +45,10 @@ export default function Groups({ contacts, user, groups, setGroups }) {
   // מחיקת קבוצה ואנשי קשר שלה
   const handleDeleteGroupConfirm = () => {
     // מסיר את כל אנשי הקשר מהקבוצה הנבחרת
-    const updatedContacts = localContacts.filter(
+    const updatedContacts = contacts.filter(
       (c) => !c.groups?.includes(selectedGroup)
     );
-    setLocalContacts(updatedContacts);
+    setContacts(updatedContacts);
 
     // מסיר את הקבוצה מהרשימה
     setGroups((prevGroups) => prevGroups.filter((g) => g !== selectedGroup));
@@ -66,7 +70,7 @@ export default function Groups({ contacts, user, groups, setGroups }) {
   };
 
   // סינון אנשי קשר לפי קבוצה ומועדפים
-  const groupedContacts = localContacts.filter((c) => {
+  const groupedContacts = contacts.filter((c) => {
     const inGroup =
       selectedGroup === "All" || c.groups?.includes(selectedGroup);
     const isFav = !showFavorites || favorites.includes(c.id);
@@ -114,6 +118,7 @@ export default function Groups({ contacts, user, groups, setGroups }) {
           <ContactView
             key={selectedGroup + (showFavorites ? "_fav" : "")}
             contacts={groupedContacts}
+            setContacts={setContacts} 
             user={user}
             favorites={favorites}
             setFavorites={setFavorites}
