@@ -11,6 +11,7 @@ export default function ContactView({
   user,
   favorites,
   setFavorites,
+  groups
 }) {
 
 
@@ -193,6 +194,7 @@ export default function ContactView({
             onSubmit={handleSave}
             initialData={editingContact}
             isEdit={!!editingContact}
+            groups={groups} 
           />
         </Modal>
       )}

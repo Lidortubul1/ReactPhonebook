@@ -10,6 +10,8 @@ export default function Groups({
   user,
   groups,
   setGroups,
+  favorites,
+  setFavorites,
 }) {
   // הקבוצה שנבחרה כרגע
   const [selectedGroup, setSelectedGroup] = useState("All");
@@ -19,8 +21,6 @@ export default function Groups({
   const [newGroup, setNewGroup] = useState("");
   // האם להציג רק אנשי קשר מועדפים
   const [showFavorites, setShowFavorites] = useState(false);
-  // מזהים של אנשי קשר מועדפים
-  const [favorites, setFavorites] = useState([]);
   // הודעות למודאלים
   const [messageModal, setMessageModal] = useState("");
   const [confirmModal, setConfirmModal] = useState("");
@@ -118,7 +118,7 @@ export default function Groups({
           <ContactView
             key={selectedGroup + (showFavorites ? "_fav" : "")}
             contacts={groupedContacts}
-            setContacts={setContacts} 
+            setContacts={setContacts}
             user={user}
             favorites={favorites}
             setFavorites={setFavorites}

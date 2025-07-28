@@ -16,6 +16,7 @@ import "./app.css";
 function App() {
   const [user, setUser] = useState(null);
   const [contacts, setContacts] = useState([]);
+const [favorites, setFavorites] = useState([]);
 
   // סטייט של הקבוצות הקיימות
   const [groups, setGroups] = useState([
@@ -91,21 +92,28 @@ function App() {
                 user={user}
                 groups={groups}
                 setGroups={setGroups}
+                favorites={favorites}
+                setFavorites={setFavorites}
               />
             }
           />
+
           <Route
             path="/groups"
             element={
               <Groups
                 contacts={contacts}
-                setContacts={setContacts} 
+                setContacts={setContacts}
                 user={user}
                 groups={groups}
                 setGroups={setGroups}
+                favorites={favorites}
+                setFavorites={setFavorites}
               />
             }
           />
+
+          
         </Route>
       </Routes>
     </Router>

@@ -1,7 +1,7 @@
 // @AddOrEditForm - מאפשרת להוסיף איש קשר חדש או לערוך איש קשר קיים, בהתאם לפרופס isEdit.
 import { useState } from "react";
 
-export default function AddOrEditForm({ onSubmit, initialData, isEdit }) {
+export default function AddOrEditForm({ onSubmit, initialData, isEdit ,groups}) {
   // אתחול השדות לפי initialData אם קיים
   const [name, setName] = useState(initialData?.name || "");
   const [email, setEmail] = useState(initialData?.email || "");
@@ -21,7 +21,8 @@ export default function AddOrEditForm({ onSubmit, initialData, isEdit }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>:שם
+      <label>
+        :שם
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -29,7 +30,8 @@ export default function AddOrEditForm({ onSubmit, initialData, isEdit }) {
         />
       </label>
 
-      <label>:מייל
+      <label>
+        :מייל
         <input
           type="email"
           value={email}
@@ -38,7 +40,8 @@ export default function AddOrEditForm({ onSubmit, initialData, isEdit }) {
         />
       </label>
 
-      <label>:טלפון
+      <label>
+        :טלפון
         <input
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
@@ -46,17 +49,23 @@ export default function AddOrEditForm({ onSubmit, initialData, isEdit }) {
         />
       </label>
 
-      <label>קבוצה:
-        <input
+      <label>
+        קבוצה:
+        <select
           value={group}
           onChange={(e) => setGroup(e.target.value)}
           required
-        />
+        >
+          <option value="">בחר קבוצה</option>
+          {groups.map((g) => (
+            <option key={g} value={g}>
+              {g}
+            </option>
+          ))}
+        </select>
       </label>
 
-      <button type="submit">
-        {isEdit ? "שמור שינויים" : "הוסף איש קשר"}
-      </button>
+      <button type="submit">{isEdit ? "שמור שינויים" : "הוסף איש קשר"}</button>
     </form>
   );
 }
