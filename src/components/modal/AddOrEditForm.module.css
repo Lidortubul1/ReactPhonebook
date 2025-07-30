@@ -1,13 +1,12 @@
 /* AddOrEditForm.module.css */
 
 .formContainer {
-  max-width: 600px;
-  margin: 2rem auto;
+  max-width: 380px;
+  width: 100%;  margin: 2rem auto;
   padding: 2rem;
   background-color: #ffffff;
   font-family: 'Heebo', sans-serif;
   direction: rtl;
-  text-align: right;
   max-height: 500px;
 }
 
@@ -15,30 +14,35 @@
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
   color: #0094d9;
-  text-align: center;
+    text-align: center;
+
 }
 
 .formLabel {
-  display: block;
+  display: flex;
+  flex-direction: row; /* טקסט ותיבה באותה שורה */
+  align-items: center; /* יישור לגובה אחיד */
+  justify-content: flex-start;
+  gap: 1rem; /* רווח בין הטקסט לתיבה */
   margin-bottom: 1rem;
-  color: #333;
-  font-weight: bold;
+}
+
+.formLabel > span {
+  width: 60px; /* כל הטקסטים באותו רוחב */
+  text-align: right;
 }
 
 .formInput,
 .formSelect {
-  width: 100%;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
+  flex: 1; /* שהתיבה תמלא את השורה */
+  padding: 0.5rem;
   border-radius: 10px;
-  background-color: #f0f6ff;
-  box-sizing: border-box;
-  margin-top: 0.3rem;
-      align-items: center; /* ממרכז את הכפתורים וה-select */
+  border: 1px solid #ccc;
+  font-family: inherit;
+  font-size: 1rem;
+    background-color: #f0f6ff;
 
 }
-
 
 
 .submitButton {
