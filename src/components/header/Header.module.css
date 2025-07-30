@@ -1,33 +1,18 @@
-@keyframes glowText {
-  0% {
-    text-shadow: 0 0 20px #450849, 0 0 10px #66ccff, 0 0 20px #450849;
-  }
-  50% {
-    text-shadow: 0 0 5px #0f1214, 0 0 10px #66ccff, 0 0 20px #010f15;
-  }
-  100% {
-    text-shadow: 0 0 20px #450849, 0 0 10px #66ccff, 0 0 20px #450849;
-  }
-}
-
 .header {
-  background: linear-gradient(to right, #749ceb, #933578);
-  padding: 1.5rem;
+  background: linear-gradient(90deg, #0094d9, #0094d9); /* כחול > סגול */
+  color: white;
+  
   text-align: center;
-  border-radius: 0 0 16px 16px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  padding: 2rem;
+  border-radius: 0 0 20px 20px;
+  font-family: 'Heebo', sans-serif;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
 .header h1 {
-  font-size: 2.8rem;
+  margin: 0;
+  font-size: 2rem;
   font-weight: bold;
   color: #ffffff;
-  font-family: 'Segoe UI', 'Rubik', 'Tahoma', sans-serif;
-  letter-spacing: 1.5px;
-  animation: glowText 3s infinite ease-in-out;
-  transition: transform 0.3s ease;
-}
-
-.header h1:hover {
-  transform: scale(1.05);
+  text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.3);
 }

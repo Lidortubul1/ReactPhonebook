@@ -1,8 +1,16 @@
 import { Link, useLocation } from "react-router-dom";
 import styles from "./NavBar.module.css";
 
+/**
+ * קומפוננטת NavBar - תפריט ניווט עליון עם קישורים ופעולת התנתקות
+ *
+ * @component
+ * @param {Object} props - האובייקט שמכיל את כל הפרופס
+ * @param {{to: string, label: string}[]} props.links - מערך קישורים (נתיב + תווית) להצגה בניווט
+ * @param {Function} props.onLogout - פונקציה שמופעלת בעת לחיצה על כפתור התנתקות
+ * @returns {JSX.Element} רכיב JSX של סרגל ניווט
+ */
 export default function NavBar({ links, onLogout }) {
-  
   const location = useLocation();
 
   return (

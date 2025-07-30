@@ -34,11 +34,10 @@ export default function Layout({ links, onLogout, user }) {
     <div className={classes.layout}>
       {/* ראש הדף */}
       <Header />
-
       {/* תפריט ניווט ראשי */}
       <NavBar links={links} onLogout={onLogout} />
-
       {/* אזור תוכן עיקרי של הדף */}
+      
       <main className={classes.mainContent}>
         <Outlet />
       </main>

@@ -1,60 +1,88 @@
 .nav {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 0.8rem;
-  background: linear-gradient(to right, #f5f7fa, #e2e8f0);
-  padding: 1rem 1.5rem;
-  border-radius: 16px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  gap: 0.5rem; /* אין gap כי נשתמש בקווים מפרידים */
+  padding: 1rem 0;
+  background-color: white;
+  border-bottom: 2px solid #0094d9;
+    border-top: 2px solid #0094d9; /* פס כחול עליון */
+
+  direction: rtl;
+  font-family: 'Heebo', sans-serif;
 }
 
 .link {
+  background-color: white; /* רקע לבן כברירת מחדל */
+  color: black;
   text-decoration: none;
-  background: linear-gradient(to right, #667eea, #764ba2);
-  color: #fff;
-  padding: 0.55rem 1.2rem;
-  border-radius: 12px;
-  font-weight: bold;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0.6rem 1.2rem;
+  position: relative;
+  transition: background-color 0.3s ease;
 }
 
-.link:hover {
-  background: linear-gradient(to right, #5a67d8, #6b46c1);
-  transform: scale(1.05);
+/* קו מפריד אנכי בין הלינקים */
+.link:not(:last-child)::after {
+  content: "|";
+  color: rgb(0, 0, 0);
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%) translateX(50%);
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+/* רקע משתנה רק כאשר מרחפים */
+.link:hover,
+.link:focus {
+  background-color: #f0f0f0;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.activeLink {
+  background-color: #e0e0e0;
+  font-weight: bold;
+  text-decoration: underline;
 }
 
 .logoutBtn {
-  background: linear-gradient(to right, #063c53, #1298a7);
-
-  color: white;
-  padding: 0.55rem 1.2rem;
-  border-radius: 12px;
+  background-color: white;
+  color: black;
   border: none;
-  font-weight: bold;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0.6rem 1.2rem;
+  margin-right: 1.2rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(229, 62, 62, 0.3);
+  transition: background-color 0.3s ease;
 }
 
 .logoutBtn:hover {
-  background: linear-gradient(to right, #f56565, #e53e3e);
-  transform: scale(1.05);
-}
-.link:hover,
-.logoutBtn:hover {
-  animation: bounce 0.4s ease;
+  background-color: #ffc8c8;
+  font-weight: bold;
+  text-decoration: underline;
 }
 
-@keyframes bounce {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.07); }
-  100% { transform: scale(1); }
-}
-.activeLink {
-  background: linear-gradient(to right, #a4478d, #5b093d); /* ירוק */
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
-  transform: scale(1.05);
+/* רספונסיבי למסכים קטנים */
+@media (max-width: 768px) {
+  .nav {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .link,
+  .logoutBtn {
+    width: 100%;
+    text-align: center;
+    border: none;
+  }
+
+  .link:not(:last-child)::after {
+    content: "";
+  }
 }

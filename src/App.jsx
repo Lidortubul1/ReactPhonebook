@@ -7,18 +7,28 @@ import {
 } from "react-router-dom";
 import Login from "./pages/login/Login";
 import Home from "./pages/home/Home";
-import Contacts from "./pages/contacts/Contacts"
+import Contacts from "./pages/contacts/Contacts";
 import Groups from "./pages/groups/Groups";
 import Layout from "./pages/layout/Layout";
 import About from "./pages/about/about";
 import "./app.css";
 
+/**
+ * קומפוננטת App - רכיב השורש של האפליקציה.
+ * מנהלת את ה־Router, את המשתמש, אנשי הקשר, קבוצות, ומועדפים.
+ * מגדירה את כל ה־Routes ומטפלת בלוגיקה של התחברות, התנתקות וטעינת אנשי קשר.
+ *
+ * @returns {JSX.Element} האלמנט הראשי של האפליקציה.
+ */
 function App() {
-  const [user, setUser] = useState(null);
-  const [contacts, setContacts] = useState([]);
-const [favorites, setFavorites] = useState([]);
+  const [user, setUser] = useState(null); // המשתמש המחובר
+  const [contacts, setContacts] = useState([]); // רשימת אנשי קשר
+  const [favorites, setFavorites] = useState([]); // מזהים של אנשי קשר מועדפים
 
-  // סטייט של הקבוצות הקיימות
+  /**
+   * סטייט של הקבוצות הקיימות במערכת.
+   * @type {string[]}
+   */
   const [groups, setGroups] = useState([
     "משפחה",
     "חברים",
@@ -28,16 +38,27 @@ const [favorites, setFavorites] = useState([]);
     "ספורט",
   ]);
 
+  /**
+   * מטפל בהתחברות המשתמש ושולח בקשה לטעינת אנשי קשר.
+   * @param {Object} loggedInUser - האובייקט של המשתמש המחובר.
+   */
   const handleLogin = (loggedInUser) => {
     setUser(loggedInUser);
     fetchContacts();
   };
 
+  /**
+   * מנתק את המשתמש ומאפס את רשימת אנשי הקשר.
+   */
   const handleLogout = () => {
     setUser(null);
     setContacts([]);
   };
-  //יבוא אנשי הקשר
+
+  /**
+   * טוען אנשי קשר מ־API חיצוני, מוסיף לכל איש קשר קבוצות רנדומליות,
+   * ומעדכן את הסטייט של contacts.
+   */
   const fetchContacts = async () => {
     try {
       const res = await fetch(
@@ -45,11 +66,13 @@ const [favorites, setFavorites] = useState([]);
       );
       const data = await res.json();
 
+      // בוחר קבוצות רנדומליות לאיש קשר
       const getRandomGroups = () => {
         const count = Math.floor(Math.random() * 3) + 1;
         return [...groups].sort(() => 0.5 - Math.random()).slice(0, count);
       };
 
+      
       const contactsData = data.results.map((person, index) => ({
         id: index + 1,
         name: `${person.name.first} ${person.name.last}`,
@@ -65,7 +88,10 @@ const [favorites, setFavorites] = useState([]);
     }
   };
 
-  //הדפים של הנאב-בר
+  /**
+   * מערך הקישורים לניווט שמופיע ב־Layout.
+   * @type {{to: string, label: string}[]}
+   */
   const links = [
     { to: "/home", label: "בית" },
     { to: "/contacts", label: "אנשי קשר" },
@@ -97,7 +123,6 @@ const [favorites, setFavorites] = useState([]);
               />
             }
           />
-
           <Route
             path="/groups"
             element={
@@ -112,8 +137,6 @@ const [favorites, setFavorites] = useState([]);
               />
             }
           />
-
-          
         </Route>
       </Routes>
     </Router>

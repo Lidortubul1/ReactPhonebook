@@ -1,152 +1,181 @@
+/* עוטף ראשי – מרכז את התוכן ומגדיר רקע לבן */
 .container {
-  max-width: 1200px;
-  margin: 3rem auto;
-  background: linear-gradient(135deg, #f7fafc, #edf2f7);
-  padding: 2.5rem;
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: linear-gradient(135deg, #eff8ff, #ffffff);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  font-family: 'Heebo', sans-serif;
+  direction: rtl;
+    /* ✅ קו עליון */
+  border-top: 3px solid #0094d9;
+  margin-top: 2rem;
+}
+
+.popupOnly {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 2rem;
   border-radius: 20px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  width: 90%;
+ max-width: 500px;
+   max-height: 600px;
+
+   direction: rtl;
+    border-top: 3px solid #0094d9;
+
 }
 
-.container:hover {
-  transform: scale(1.01);
+
+
+/* כותרת למעלה */
+.header {
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+    text-align: center;
+
 }
 
+/* חיפוש ופקדים נוספים */
 .controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.7rem;
-  margin-bottom: 1.2rem;
-  align-items: center;
-  justify-content: space-between;
+  margin-bottom: 1.5rem;
+      text-align: center;
+
 }
 
 .controls input {
-  padding: 0.6rem;
+  padding: 0.6rem 1rem;
+  width: 100%;
+  max-width: 300px;
   border: 1px solid #ccc;
-  border-radius: 12px;
-  min-width: 220px;
+  border-radius: 8px;
   font-size: 1rem;
-  transition: border 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 1rem;
+    align-items: center; /* ממרכז את הכפתורים וה-select */
+
 }
 
-.controls input:focus {
-  border-color: #4a90e2;
-  box-shadow: 0 0 5px rgba(74, 144, 226, 0.6);
-  outline: none;
-}
-
-.controls button {
-  background: linear-gradient(to right, #667eea, #764ba2);
-  color: #fff;
+.buttonRow button {
+  background: none;               /* אין רקע */
+  color: rgb(43, 43, 43);         /* צבע טקסט רגיל */
   border: none;
-  border-radius: 12px;
-  padding: 0.6rem 1.1rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
   cursor: pointer;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+/* מעבר עכבר */
+.buttonRow button:hover {
+    background: none;               /* אין רקע */
+border-bottom: #000000;
+    color: #0094d9;
+}
+
+/* בזמן לחיצה */
+.buttonRow button:active {
+  background: none;
+  color: #0094d9;
+}
+
+/* בזמן פוקוס (למשל מקלדת) */
+.buttonRow button:focus {
+  outline: none;
+  background: none;
+  color: #0094d9;
+}
+
+
+/* כפתור מיון פעיל */
+.activeSort {
+  color: #000000;
   font-weight: bold;
-  transition: all 0.3s ease;
 }
 
-.controls button:hover {
-  background: linear-gradient(to right, #5a67d8, #6b46c1);
-  transform: scale(1.05);
-}
-
-
+/* רשימת אנשי קשר */
 .contactList {
   list-style: none;
   padding: 0;
-  display: grid;
-  gap: 1.2rem;
   margin-top: 1rem;
 }
 
+/* כל כרטיס איש קשר */
 .contactItem {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1.2rem;
-  background-color: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-  animation: fadeIn 0.5s ease-in-out;
-  transition: transform 0.2s ease;
+  justify-content: space-between;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 0.8rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  flex-wrap: wrap;
 }
 
-.contactItem:hover {
-  transform: translateY(-4px);
-}
-
-p {
-  font-weight: bold;
-  text-align: center;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
+/* תמונת איש קשר */
 .image {
-  width: 60px;
-  height: 60px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
+  margin-left: 1rem;
   object-fit: cover;
-  border: 2px solid #4a90e2;
 }
 
+/* פרטי איש קשר */
 .contactDetails {
   flex: 1;
-  font-size: 1.05rem;
-  font-weight: 500;
+  font-size: 1rem;
   color: #333;
+  margin-bottom: 0.3rem;
 }
 
+/* אזור פעולות (מועדף, עריכה, מחיקה) */
 .actions {
   display: flex;
   gap: 0.4rem;
 }
 
+/* כפתורים קטנים לכל איש קשר */
 .actions button {
-  background-color: #f1f5f9;
+  background-color: #0094d9;        /* כחול */
+  color: white;
   border: none;
-  padding: 0.4rem 0.6rem;
   border-radius: 8px;
+  padding: 0.3rem 0.6rem;           /* קטן יותר מהכפתורים הרגילים */
+  font-size: 0.9rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .actions button:hover {
-  background-color: #e2e8f0;
+  color: #000000;
 }
 
+/* רספונסיביות למסכים קטנים */
 @media (max-width: 768px) {
-  .controls {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
   .contactItem {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .actions {
-    width: 100%;
-    justify-content: flex-start;
-    flex-wrap: wrap;
+  .contactDetails {
+    margin: 0.5rem 0;
   }
-}
-/* עיצוב כפתור מיון נבחר */
-.activeSort {
-  background: linear-gradient(to right, #4fd1c5, #4299e1);
-  color: white;
-  transform: scale(1.05);
-  box-shadow: 0 0 5px rgba(66, 153, 225, 0.5);
+
+  .buttonRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .buttonRow button {
+    width: 100%;
+  }
 }

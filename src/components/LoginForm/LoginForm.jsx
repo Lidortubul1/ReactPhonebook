@@ -56,7 +56,6 @@ export default function LoginForm({ onLogin }) {
             title="לפחות 6 תווים, כולל אותיות ומספרים"
             className={styles.input}
           />
-
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
@@ -79,7 +78,6 @@ export default function LoginForm({ onLogin }) {
             title="לפחות 6 תווים, כולל אותיות ומספרים"
             className={styles.input}
           />
-
           <button
             type="button"
             onClick={() => setShowConfirmPassword(!showConfirmPassword)}

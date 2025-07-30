@@ -3,7 +3,22 @@ import styles from "./Groups.module.css";
 import Modal from "../../components/modal/Modal";
 import ContactView from "../../components/contactView/contactView";
 
-// קומפוננטת Groups - לניהול קבוצות ואנשי קשר
+/**
+ * קומפוננטת Groups לניהול קבוצות ואנשי קשר.
+ * מאפשרת:
+ * - הוספת קבוצה (Admin בלבד)
+ * - מחיקת קבוצה ואנשי הקשר בה (Admin בלבד)
+ * - סינון אנשי קשר לפי קבוצה ומועדפים
+ * - תצוגת אנשי קשר לפי קבוצה
+ *
+ * @param {Object[]} contacts - מערך של אנשי קשר הכולל שדות כמו id, name, phone, email, groups ועוד.
+ * @param {Function} setContacts - פונקציה לעדכון אנשי הקשר.
+ * @param {Object} user - אובייקט המשתמש המחובר, כולל isAdmin.
+ * @param {string[]} groups - מערך של שמות קבוצות קיימות.
+ * @param {Function} setGroups - פונקציה לעדכון הקבוצות.
+ * @param {number[]} favorites - מזהים של אנשי קשר שמסומנים כמועדפים.
+ * @param {Function} setFavorites - פונקציה לעדכון רשימת המועדפים.
+ */
 export default function Groups({
   contacts,
   setContacts,
@@ -13,27 +28,25 @@ export default function Groups({
   favorites,
   setFavorites,
 }) {
-  // הקבוצה שנבחרה כרגע
   const [selectedGroup, setSelectedGroup] = useState("All");
-  // האם להציג מודאל להוספת קבוצה
   const [showModal, setShowModal] = useState(false);
-  // שם קבוצה חדשה בהוספה
   const [newGroup, setNewGroup] = useState("");
-  // האם להציג רק אנשי קשר מועדפים
   const [showFavorites, setShowFavorites] = useState(false);
-  // הודעות למודאלים
   const [messageModal, setMessageModal] = useState("");
   const [confirmModal, setConfirmModal] = useState("");
-  // הוספת קבוצה חדשה לרשימת הקבוצות
+
+  /**
+   * מוסיפה קבוצה חדשה לרשימת הקבוצות אם אינה קיימת כבר.
+   * מציגה הודעה מתאימה במודאל.
+   */
   const handleAddGroup = () => {
     const trimmed = newGroup.trim();
     if (!trimmed) return;
-    // אם לא קיימת, מוסיפים
+
     if (!groups.includes(trimmed)) {
       setGroups([...groups, trimmed]);
       setMessageModal(`הקבוצה "${trimmed}" נוספה בהצלחה`);
     } else {
-      // אם קיימת - הודעת שגיאה
       setMessageModal(`הקבוצה "${trimmed}" כבר קיימת`);
     }
 
@@ -42,34 +55,35 @@ export default function Groups({
     setShowModal(false);
   };
 
-  // מחיקת קבוצה ואנשי קשר שלה
+  /**
+   * מוחקת את הקבוצה הנבחרת וכל אנשי הקשר המשויכים אליה.
+   * מאפסת את הבחירה ומציגה הודעה על הצלחה.
+   */
   const handleDeleteGroupConfirm = () => {
-    // מסיר את כל אנשי הקשר מהקבוצה הנבחרת
     const updatedContacts = contacts.filter(
       (c) => !c.groups?.includes(selectedGroup)
     );
     setContacts(updatedContacts);
-
-    // מסיר את הקבוצה מהרשימה
     setGroups((prevGroups) => prevGroups.filter((g) => g !== selectedGroup));
-
-    // איפוס בחירה
     setSelectedGroup("All");
-
-    // הודעת הצלחה
     setMessageModal(`הקבוצה "${selectedGroup}" וכל אנשי הקשר בה נמחקו בהצלחה`);
     setTimeout(() => setMessageModal(null), 1000);
     setConfirmModal("");
   };
 
-  // פתיחת מודאל אישור מחיקת קבוצה
+  /**
+   * פותח מודאל אישור למחיקת הקבוצה הנבחרת, אם היא לא "All".
+   */
   const handleDeleteGroup = () => {
     if (selectedGroup !== "All") {
       setConfirmModal(`האם למחוק את כל אנשי הקשר בקבוצה "${selectedGroup}"?`);
     }
   };
 
-  // סינון אנשי קשר לפי קבוצה ומועדפים
+  /**
+   * מסנן אנשי קשר להצגה בהתאם לקבוצה הנבחרת והאם תצוגת מועדפים מופעלת.
+   * @type {Object[]}
+   */
   const groupedContacts = contacts.filter((c) => {
     const inGroup =
       selectedGroup === "All" || c.groups?.includes(selectedGroup);
@@ -79,53 +93,43 @@ export default function Groups({
 
   return (
     <div className={styles.container}>
-      <h2>ניהול קבוצות ואנשי קשר</h2>
+      <h2 className={styles.title}>ניהול קבוצות ואנשי קשר</h2>
 
-      <div className={styles.wrapper}>
-        {/* סיידבר של קבוצות */}
-        <div className={styles.sidebar}>
-          <button
-            className={selectedGroup === "All" ? styles.selected : ""}
-            onClick={() => setSelectedGroup("All")}
-          >
-            כל אנשי הקשר
-          </button>
-
-          {groups.map((g) => (
-            <button
-              key={g}
-              className={selectedGroup === g ? styles.selected : ""}
-              onClick={() => setSelectedGroup(g)}
-            >
-              {g}
-            </button>
-          ))}
-
+      <div className={styles.topBar}>
+        <div className={styles.buttonGroup}>
           {user.isAdmin && (
             <>
               <button onClick={() => setShowModal(true)}>➕ הוסף קבוצה</button>
               <button onClick={handleDeleteGroup}>🗑️ מחק קבוצה</button>
             </>
           )}
-
-          <button onClick={() => setShowFavorites((prev) => !prev)}>
-            {showFavorites ? "הצג הכל" : "הצג מועדפים"}
-          </button>
         </div>
 
-        {/* תצוגת אנשי קשר */}
-        <div className={styles.main}>
-          <ContactView
-            key={selectedGroup + (showFavorites ? "_fav" : "")}
-            contacts={groupedContacts}
-            setContacts={setContacts}
-            user={user}
-            favorites={favorites}
-            setFavorites={setFavorites}
-            groups={groups}
-          />
-        </div>
+        <select
+          className={styles.selectGroup}
+          value={selectedGroup}
+          onChange={(e) => setSelectedGroup(e.target.value)}
+        >
+          <option value="All">כל אנשי הקשר</option>
+          {groups.map((g) => (
+            <option key={g} value={g}>
+              {g}
+            </option>
+          ))}
+        </select>
       </div>
+
+      {/* תצוגת אנשי קשר */}
+
+      <ContactView
+        key={selectedGroup + (showFavorites ? "_fav" : "")}
+        contacts={groupedContacts}
+        setContacts={setContacts}
+        user={user}
+        favorites={favorites}
+        setFavorites={setFavorites}
+        groups={groups}
+      />
 
       {/* מודאל הוספת קבוצה */}
       {showModal && (

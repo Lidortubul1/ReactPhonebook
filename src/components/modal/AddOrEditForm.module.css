@@ -1,0 +1,59 @@
+/* AddOrEditForm.module.css */
+
+.formContainer {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  font-family: 'Heebo', sans-serif;
+  direction: rtl;
+  text-align: right;
+  max-height: 500px;
+}
+
+.formTitle {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #0094d9;
+  text-align: center;
+}
+
+.formLabel {
+  display: block;
+  margin-bottom: 1rem;
+  color: #333;
+  font-weight: bold;
+}
+
+.formInput,
+.formSelect {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f0f6ff;
+  box-sizing: border-box;
+  margin-top: 0.3rem;
+      align-items: center; /* ממרכז את הכפתורים וה-select */
+
+}
+
+
+
+.submitButton {
+  width: 100%;
+  background-color: #0094d9;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 0.6rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+}
+
+.submitButton:hover {
+  background-color: #0077b6;
+}
