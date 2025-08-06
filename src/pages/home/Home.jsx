@@ -3,7 +3,6 @@
  * קומפוננטת דף הבית במערכת ספר הטלפונים.
  * מציגה הודעת ברוך הבא לאחר טעינה ומאפשרת להציג מידע נוסף על המערכת.
  */
-
 import { useEffect, useState } from "react";
 import Modal from "../../components/modal/Modal";
 import styles from "./Home.module.css";

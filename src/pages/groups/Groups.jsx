@@ -110,13 +110,14 @@ export default function Groups({
           value={selectedGroup}
           onChange={(e) => setSelectedGroup(e.target.value)}
         >
-          <option value="All">כל אנשי הקשר</option>
+          <option value="All">בחירת קבוצה</option>
           {groups.map((g) => (
             <option key={g} value={g}>
               {g}
             </option>
           ))}
         </select>
+        
       </div>
 
       {/* תצוגת אנשי קשר */}

@@ -20,6 +20,7 @@ export default function LoginForm({ onLogin }) {
       (u) => u.email === email && u.password === password
     );
 
+    
     if (!user || password !== confirmPassword) {
       setError("פרטי התחברות לא נכונים או סיסמאות לא תואמות");
       return;

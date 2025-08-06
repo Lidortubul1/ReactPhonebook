@@ -25,6 +25,8 @@ function App() {
   const [contacts, setContacts] = useState([]); // רשימת אנשי קשר
   const [favorites, setFavorites] = useState([]); // מזהים של אנשי קשר מועדפים
 
+
+
   /**
    * סטייט של הקבוצות הקיימות במערכת.
    * @type {string[]}
@@ -51,8 +53,15 @@ function App() {
    * מנתק את המשתמש ומאפס את רשימת אנשי הקשר.
    */
   const handleLogout = () => {
-    setUser(null);
-    setContacts([]);
+    setUser(null);//יציאה מהמשתמש
+    setContacts([]);//עדכון אנשי הקשר למערך ריק
+    setFavorites([]);//עדכון המועדפים למערך ריק בלי
+    setGroups( ["משפחה",
+    "חברים",
+    "עבודה",
+    "שכנים",
+    "לימודים",
+    "ספורט",]);//עדכון הקבוצות למה שהיה 
   };
 
   /**
@@ -67,12 +76,13 @@ function App() {
       const data = await res.json();
 
       // בוחר קבוצות רנדומליות לאיש קשר
+      //כמות הקבוצות שכל איש קשר ישתייך אליהן בין 1-3
       const getRandomGroups = () => {
         const count = Math.floor(Math.random() * 3) + 1;
         return [...groups].sort(() => 0.5 - Math.random()).slice(0, count);
       };
 
-      
+      //עובר על כל מערך האנשים ושמה את השדות לכל אחד
       const contactsData = data.results.map((person, index) => ({
         id: index + 1,
         name: `${person.name.first} ${person.name.last}`,
@@ -81,7 +91,7 @@ function App() {
         image: person.picture.large,
         groups: getRandomGroups(),
       }));
-
+//שינוי מערך האנשים למערך שעשינו מעל
       setContacts(contactsData);
     } catch (error) {
       console.error("שגיאה בטעינת אנשי קשר:", error);
@@ -104,9 +114,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
-        <Route
-          element={<Layout user={user} links={links} onLogout={handleLogout} />}
-        >
+        <Route element={<Layout user={user} links={links} onLogout={handleLogout} />}>
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route

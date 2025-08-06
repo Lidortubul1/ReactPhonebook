@@ -26,6 +26,7 @@ export default function Layout({ links, onLogout, user }) {
    * אם אין משתמש מחובר (user === null או undefined),
    * המשתמש ינותב אוטומטית לעמוד ההתחברות.
    */
+
   if (!user) {
     return <Navigate to="/login" replace />;
   }

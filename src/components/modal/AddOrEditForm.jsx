@@ -74,8 +74,7 @@ export default function AddOrEditForm({ onSubmit, initialData, isEdit, groups, o
           className={styles.formSelect}
           value={group}
           onChange={(e) => setGroup(e.target.value)}
-          required
-        >
+          required>
           <option value="">בחר קבוצה</option>
           {groups.map((g) => (
             <option key={g} value={g}>
